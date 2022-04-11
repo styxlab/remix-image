@@ -165,7 +165,7 @@ export const imageLoader: AssetLoader = async (
           );
         }
       }
-
+      console.time("transformer");
       resultImg = await curTransformer.transform(
         {
           url: assetUrl.toString(),
@@ -177,7 +177,7 @@ export const imageLoader: AssetLoader = async (
           contentType: outputContentType!,
         }
       );
-
+      console.timeEnd("transformer");
       console.log(
         `Successfully transformed image using transformer: ${curTransformer.name}`
       );

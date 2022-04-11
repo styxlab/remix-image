@@ -1,5 +1,5 @@
-import { MimeType } from "./file";
-import { TransformOptions } from "./image";
+import type { MimeType } from "./file";
+import type { TransformOptions } from "./image";
 
 export type Transformer = {
   name: string;

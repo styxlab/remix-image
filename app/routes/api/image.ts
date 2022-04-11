@@ -6,7 +6,7 @@ import {
   fetchResolver,
   type Resolver,
 } from "~/components/image/server/pure";
-//import { wasmTransformer } from "~/components/image/server/transformers";
+import { wasmTransformer } from "~/components/image/server/transformers";
 
 const whitelistedDomains = new Set([
   SELF_URL,
@@ -30,7 +30,7 @@ const config = {
   selfUrl: SELF_URL,
   cache: new KVCache({ namespace: IMAGE }),
   resolver: myResolver,
-  //transformer: wasmTransformer,
+  transformer: wasmTransformer,
 };
 
 export const loader: LoaderFunction = ({ request }) => {

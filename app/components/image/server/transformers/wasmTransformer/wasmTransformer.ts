@@ -42,13 +42,17 @@ export const wasmTransformer: Transformer = {
     }
   ) => {
     try {
+      console.log("before initResize");
       await initResize(RESIZE_ENC_WASM);
-
+      console.log("after initResize");
+      console.log(inputContentType, typeHandlers);
       const inputHandler = typeHandlers[inputContentType];
       const rgba = await inputHandler.decode(data);
 
       let targetWidth = width || rgba.width * ((height || 0) / rgba.height);
       let targetHeight = height || rgba.height * ((width || 0) / rgba.width);
+
+      console.log(targetWidth, targetHeight);
 
       if (targetWidth <= 0 || targetHeight <= 0) {
         throw new Error("At least one dimension must be provided!");
@@ -57,6 +61,7 @@ export const wasmTransformer: Transformer = {
       targetWidth = Math.round(targetWidth);
       targetHeight = Math.round(targetHeight);
 
+      console.log("before resize");
       const resizedImageData = await resize(
         {
           width: rgba.width,
@@ -68,8 +73,18 @@ export const wasmTransformer: Transformer = {
           height: targetHeight,
         }
       );
+      console.log(
+        "after resize",
+        outputContentType || inputContentType,
+        typeHandlers
+      );
 
       const outputHandler = typeHandlers[outputContentType || inputContentType];
+      console.log(
+        "before encode",
+        outputHandler,
+        outputContentType || inputContentType
+      );
       const result = await outputHandler.encode(
         {
           width: resizedImageData.width,
@@ -88,7 +103,7 @@ export const wasmTransformer: Transformer = {
           delay,
         }
       );
-
+      console.log("after encode");
       return new Uint8Array(result);
     } catch (e) {
       console.error(12345);
